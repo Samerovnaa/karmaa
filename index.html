@@ -240,3 +240,18 @@
             <select id="weight-hirsuta" onchange="updatePrice('hirsuta', 10)">
                 <option value="10">10 г</option>
                 <option value="25">
+                    <div class="product-card">
+    <img src="images/javanica.jpg" alt="Mitragyna Javanica">
+    <h3>Mitragyna Javanica</h3>
+    <p>Природний адаптоген для заспокоєння та розслаблення. Ідеальний вибір для тих, хто прагне гармонії та балансу після насиченого дня.</p>
+    <label for="weight-javanica">Виберіть вагу (г):</label>
+    <select id="weight-javanica" onchange="updatePrice('javanica', 10)">
+        <option value="10">10 г</option>
+        <option value="25">25 г</option>
+        <option value="50">50 г</option>
+        <option value="100">100 г</option>
+        <option value="250">250 г</option>
+    </select>
+    <p id="price-javanica">Ціна: 100 грн</p>
+    <button onclick="addToCart('Mitragyna Javanica', document.getElementById('weight-javanica').value, document.getElementById('weight-javanica').value * 10)">Додати в кошик</button>
+</div>
