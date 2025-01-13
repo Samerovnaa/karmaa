@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
+    <meta name="description" content="Купити натуральні адаптогени Mitragyna Hirsuta та Mitragyna Javanica в Україні. Продукти для енергії, спокою та продуктивності. Доставка Новою Поштою.">
+    <meta name="keywords" content="Mitragyna Hirsuta, Mitragyna Javanica, купити Хірсута Україна, купить Хирсута Украина, натуральні адаптогени, натуральные адаптогены, чаї для енергії, чаи для энергии">
+    <meta name="author" content="Karmaa Ukraine">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Альтернативні Чаї | Хірсута і Джаваніка</title>
@@ -15,6 +18,7 @@
             text-align: center;
             padding: 20px;
             background: linear-gradient(90deg, #6a0dad, #1e90ff);
+            animation: fadeIn 1s ease-in-out;
         }
         header h1 {
             margin: 0;
@@ -31,6 +35,7 @@
             text-decoration: none;
             color: #fff;
             font-size: 1.2em;
+            transition: color 0.3s;
         }
         nav a:hover {
             color: #6a0dad;
@@ -38,6 +43,7 @@
         section {
             padding: 20px;
             text-align: center;
+            animation: fadeInUp 1s ease-in-out;
         }
         .product-card {
             background-color: #111;
@@ -47,6 +53,10 @@
             margin: 15px;
             display: inline-block;
             width: 250px;
+            transition: transform 0.3s;
+        }
+        .product-card:hover {
+            transform: scale(1.05);
         }
         .product-card img {
             max-width: 100%;
@@ -56,13 +66,144 @@
             color: #6a0dad;
             font-size: 1.5em;
         }
+        .product-card select, .product-card p {
+            margin-top: 10px;
+        }
+        .cart-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        .cart {
+            background-color: #111;
+            color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            width: 300px;
+            transform: scale(0.8);
+            animation: popUp 0.3s forwards ease-in-out;
+        }
+        .cart h2 {
+            color: #6a0dad;
+        }
+        .cart button {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #6a0dad;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .cart button:hover {
+            background-color: #5c0c9b;
+        }
         footer {
             text-align: center;
             padding: 20px;
             background-color: #111;
             color: #6a0dad;
+            animation: fadeIn 1s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes popUp {
+            from {
+                transform: scale(0.8);
+            }
+            to {
+                transform: scale(1);
+            }
         }
     </style>
+    <script>
+        let cart = [];
+
+        function addToCart(product, weight, price) {
+            cart.push({ product, weight, price });
+            showCart();
+        }
+
+        function showCart() {
+            const cartOverlay = document.getElementById('cart-overlay');
+            const cartContent = document.getElementById('cart-content');
+            cartContent.innerHTML = '';
+
+            if (cart.length === 0) {
+                cartContent.innerHTML = '<p>Кошик порожній.</p>';
+            } else {
+                cart.forEach(item => {
+                    cartContent.innerHTML += `<p>${item.product}, ${item.weight} г - ${item.price} грн</p>`;
+                });
+                cartContent.innerHTML += '<button onclick="submitOrder()">Оформити замовлення</button>';
+            }
+
+            cartOverlay.style.display = 'flex';
+        }
+
+        function hideCart() {
+            document.getElementById('cart-overlay').style.display = 'none';
+        }
+
+        function submitOrder() {
+            const fullName = prompt("Введіть ваші ПІБ:");
+            const phone = prompt("Введіть ваш номер телефону:");
+            const city = prompt("Введіть ваше місто:");
+            const postOffice = prompt("Введіть номер відділення або поштомату Нової Пошти:");
+            const callback = confirm("Чи потрібно вам передзвонити?");
+
+            if (!fullName || !phone || !city || !postOffice) {
+                alert("Будь ласка, заповніть усі поля для оформлення замовлення.");
+                return;
+            }
+
+            let message = `Замовлення:%0AПІБ: ${fullName}%0AТелефон: ${phone}%0AМісто: ${city}%0AВідділення: ${postOffice}%0A`;
+            message += callback ? `Передзвонити: Так%0A` : `Передзвонити: Ні%0A`;
+            cart.forEach(item => {
+                message += `${item.product}, ${item.weight} г - ${item.price} грн%0A`;
+            });
+
+            const botToken = '7444999919:AAHIfYoQKA03eOD9tqugcBV4SZpo_pfo94M';
+            const chatId = '@karmaa_ukraine_bot';
+            const url = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${message}`;
+
+            fetch(url).then(response => {
+                if (response.ok) {
+                    const paymentLink = `https://sendmoney.privatbank.ua/?card=4441111157471891&amount=${cart.reduce((total, item) => total + item.price, 0)}`;
+                    alert('Дякуємо за ваше замовлення! Перейдіть за посиланням для оплати: ' + paymentLink);
+                    window.location.href = paymentLink;
+                } else {
+                    alert('Помилка при відправленні замовлення. Спробуйте ще раз.');
+                }
+            });
+
+            cart = [];
+            hideCart();
+        }
+    </script>
 </head>
 <body>
     <header>
@@ -72,33 +213,30 @@
     <nav>
         <a href="#about">Про нас</a>
         <a href="#catalog">Каталог</a>
+        <a href="#payment">Оплата</a>
+        <a href="#delivery">Доставка</a>
         <a href="#contacts">Контакти</a>
     </nav>
     <section id="about">
         <h2>Про нас</h2>
-        <p>Ми пропонуємо найкращі альтернативні чаї, що дарують енергію та спокій одночасно. Наші продукти ідеально підходять для тих, хто шукає нові відчуття та природні рішення.</p>
-    </section>
-    <section id="catalog">
-        <h2>Каталог</h2>
-        <div class="product-card">
-            <img src="package-example.jpg" alt="Хірсута">
-            <h3>Хірсута (на розсип)</h3>
-            <p>Ціна: 300 грн</p>
-        </div>
-        <div class="product-card">
-            <img src="package-example.jpg" alt="Джаваніка">
-            <h3>Джаваніка (на розсип)</h3>
-            <p>Ціна: 350 грн</p>
-        </div>
-    </section>
-    <section id="contacts">
-        <h2>Контакти</h2>
-        <p>Телефон: +38 000 000 0000</p>
-        <p>Email: info@alternativetea.ua</p>
-        <p>Telegram: <a href="https://t.me/kkarma_ukraine" target="_blank">@kkarma_ukraine</a></p>
+        <p>Ми — твій провідник у світ якісних та натуральних бустів. Ми знаходимо круті адаптогени для підтримки здоров'я та енергії. Ці продукти створені, щоб дарувати тобі спокій, енергію та продуктивність у будь-який час дня. Вибираючи нас, ти обираєш здоров'я, натхнення та нові можливості!</p>
     </section>
     <footer>
-        <p>&copy; 2025 Альтернативні Чаї. Всі права захищені.</p>
+        <p>&copy; 2025 Karmaa Ukraine. Всі права захищені.</p>
+        <div>
+            <a href="https://t.me/kkarma_ukraine" target="_blank" style="color: #6a0dad; text-decoration: none; margin-right: 15px;">Telegram</a>
+            <a href="https://www.instagram.com/karmaa.ukraine?igshid=MWJmZmN1bHg=" target="_blank" style="color: #6a0dad; text-decoration: none; margin-right: 15px;">Instagram</a>
+            <a href="mailto:karmaa.ukraine@gmail.com" style="color: #6a0dad; text-decoration: none;">Email</a>
+        </div>
     </footer>
-</body>
-</html>
+
+<section id="catalog">
+        <h2>Каталог</h2>
+        <div class="product-card">
+            <img src="/mnt/data/p.jpg" alt="Mitragyna Hirsuta">
+            <h3>Mitragyna Hirsuta</h3>
+<p>М'який стимулятор для підвищення концентрації та енергії. Делікатний ефект без звикання – заряд бадьорості на весь день.</p>
+            <label for="weight-hirsuta">Виберіть вагу (г):</label>
+            <select id="weight-hirsuta" onchange="updatePrice('hirsuta', 10)">
+                <option value="10">10 г</option>
+                <option value="25">
