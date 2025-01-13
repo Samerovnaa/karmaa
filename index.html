@@ -67,6 +67,29 @@
             color: #6a0dad;
         }
     </style>
+<script>
+    function updatePrice(product, basePrice) {
+        const weightSelect = document.getElementById(`weight-${product}`);
+        const priceDisplay = document.getElementById(`price-${product}`);
+        const weight = weightSelect.value;
+        const totalPrice = weight * basePrice;
+        priceDisplay.textContent = `Ціна: ${totalPrice} грн`;
+    }
+
+    function addToCart(product, weight, price) {
+        const cart = document.getElementById("cart-content");
+        const cartOverlay = document.getElementById("cart-overlay");
+        const item = document.createElement("p");
+        item.textContent = `${product} - ${weight} г - ${price} грн`;
+        cart.appendChild(item);
+        cartOverlay.style.display = "block";
+    }
+
+    function closeCart() {
+        const cartOverlay = document.getElementById("cart-overlay");
+        cartOverlay.style.display = "none";
+    }
+</script>
 </head>
 <body>
     <header>
