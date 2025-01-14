@@ -438,6 +438,18 @@
         // Очищаем корзину после оплаты
         clearCart();
     }
+        function toggleMenu() {
+    const sideMenu = document.getElementById("side-menu");
+    const menuOverlay = document.getElementById("menu-overlay");
+
+    if (sideMenu.style.left === "0px") {
+        sideMenu.style.left = "-250px"; // Скрываем меню
+        menuOverlay.style.display = "none"; // Скрываем затемнение
+    } else {
+        sideMenu.style.left = "0px"; // Показываем меню
+        menuOverlay.style.display = "block"; // Показываем затемнение
+    }
+}
 </script>
     <div id="notification" style="display: none; position: fixed; top: 20px; right: 20px; background: #6a0dad; color: #fff; padding: 10px 20px; border-radius: 5px; z-index: 1000;">
         Товар додано до кошика!
