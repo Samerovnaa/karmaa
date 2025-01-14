@@ -293,7 +293,7 @@
         <a href="#delivery">Доставка</a>
         <a href="#contacts">Контакти</a>
         <a href="#cart">Кошик</a>
-        <button onclick="closeMenu()">Закрити</button>
+     <button onclick="toggleMenu()" style="font-size: 24px; background: none; border: none; color: white; cursor: pointer;">×</button>
     </div>
 
     <!-- Баннер -->
@@ -376,8 +376,7 @@
             const item = document.createElement("div");
             item.innerHTML = `
                 <p>${product} - ${weight} г - ${price} грн</p>
-                <button onclick="removeItem(${index})" style="padding: 5px; background: #ff4d4d; border: none; color: white; cursor: pointer; margin-top: 5px;">Видалити</button>
-            `;
+                <button onclick="toggleMenu()" style="font-size: 24px; background: none; border: none; color: white; cursor: pointer;">×</button>
             cart.appendChild(item);
 
             document.getElementById("cart-total").textContent = `Загальна сума: ${totalSum} грн`;
