@@ -171,11 +171,30 @@
     max-height: 150px;
     border-radius: 10px;
 }
+.product-card {
+    background-color: #111;
+    border: 1px solid #6a0dad;
+    border-radius: 10px;
+    padding: 15px;
+    margin: 15px;
+    display: inline-block;
+    width: 250px;
+    min-height: 500px; /* Минимальная высота карточки */
+    vertical-align: top;
+    text-align: center;
+    position: relative;
+}
+
+.product-card img {
+    max-width: 100%;
+    max-height: 150px;
+    border-radius: 10px;
+}
 
 .product-card p {
-    height: 60px; /* Фиксируем высоту блока с текстом */
-    overflow: hidden; /* Прячем лишний текст, если он слишком длинный */
-    margin-bottom: 10px;
+    margin-bottom: 10px; /* Добавляем отступ */
+    white-space: normal; /* Разрешаем перенос текста */
+    overflow: visible; /* Полностью отображаем текст */
 }
 
 .product-card button {
@@ -194,6 +213,7 @@
 .product-card button:hover {
     background-color: #5c0c9b;
 }
+
 </style>
 </head>
 <body>
