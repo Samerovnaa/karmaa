@@ -5,354 +5,175 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Альтернативні Чаї | Хірсута і Джаваніка</title>
     <style>
+        /* Основные стили */
         body {
             margin: 0;
             font-family: Arial, sans-serif;
             background-color: #000;
-            color: #fff;
+            color: white;
         }
-        header {
-            text-align: center;
-            padding: 20px;
-        }
-        header img {
-            max-width: 100%;
-            height: auto;
-        }
-        nav {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            padding: 10px;
-            background-color: #111;
-        }
-        nav a {
-            color: #fff;
-            text-decoration: none;
-            font-size: 1.2em;
-        }
-        nav a:hover {
-            color: #6a0dad;
-        }
-        .content {
-            padding: 20px;
-        }
-        .product-card {
-    background-color: #111;
-    border: 1px solid #6a0dad;
-    border-radius: 10px;
-    padding: 15px;
-    margin: 15px;
-    display: inline-block;
-    width: 250px; /* Фиксированная ширина */
-    height: 420px; /* Фиксированная высота */
-    vertical-align: top;
-    text-align: center;
- position: relative; /* Для позиционирования внутреннего содержимого */
-}
-        .product-card button {
-    position: absolute;
-    bottom: 15px; /* Расстояние от нижнего края карточки */
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 10px 20px;
-    background-color: #6a0dad;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
 
-    .product-card button:hover {
-    background-color: #5c0c9b;
-}
-.product-card img {
-    max-width: 100%;
-    max-height: 150px;
-    border-radius: 10px;
-}
-        .product-card h3 {
-            color: #6a0dad;
-            font-size: 1.5em;
+        /* Бургер-иконка */
+        #burger-icon {
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            font-size: 24px;
+            cursor: pointer;
+            color: white;
+            z-index: 1000;
         }
-        #cart-overlay {
-            display: none;
+
+        /* Затемнение */
+        #menu-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            color: #fff;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            z-index: 998;
         }
-        #cart-content {
-            background: #111;
+
+        /* Боковая панель */
+        #side-menu {
+            position: fixed;
+            top: 0;
+            left: -250px;
+            width: 250px;
+            height: 100%;
+            background-color: #111;
+            color: white;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
             padding: 20px;
-            border-radius: 10px;
-            max-width: 400px;
-            width: 90%;
-            text-align: left;
+            transition: left 0.3s ease;
+            z-index: 999;
         }
-        #cart-items div {
-            margin-bottom: 10px;
-            padding: 10px;
-            border: 1px solid #6a0dad;
-            border-radius: 5px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+
+        #side-menu a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            margin-bottom: 15px;
+            font-size: 18px;
         }
-        #cart-total {
-            font-weight: bold;
-            margin-top: 15px;
-            color: #6a0dad;
-        }
-        button {
-            padding: 10px;
-            background: #6a0dad;
+
+        #side-menu button {
+            font-size: 24px;
+            background: none;
             border: none;
             color: white;
             cursor: pointer;
-            border-radius: 5px;
         }
-        button:hover {
-            background: #5a099d;
-        }
-        @media (max-width: 768px) {
-    .product-card {
-        width: 100%; /* Карточка займёт всю ширину экрана */
-        max-width: 300px; /* Ограничиваем максимальную ширину */
-        margin: 10px auto; /* Центрируем карточки */
-        padding: 10px; /* Уменьшаем внутренние отступы */
-    }
 
-    .product-card button {
-        position: static; /* Кнопка будет под содержимым карточки */
-        margin-top: 15px; /* Добавляем отступ сверху */
-    }
-            .product-card img {
-        max-width: 100%; /* Изображения адаптируются */
-        height: auto; /* Сохраняем пропорции */
-    }
-}
-        @media (min-width: 769px) {
-    .product-card button {
-        position: absolute; /* Кнопка закреплена внизу карточки */
-        bottom: 15px; /* Расстояние от нижнего края карточки */
-        left: 50%; /* Центруем кнопку */
-        transform: translateX(-50%);
-        padding: 10px 20px;
-        background-color: #6a0dad;
-        color: #fff;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-}
+        #side-menu button:hover {
+            color: #6a0dad;
+        }
+
+        /* Карточка товара */
         .product-card {
-    background-color: #111;
-    border: 1px solid #6a0dad;
-    border-radius: 10px;
-    padding: 15px;
-    margin: 15px;
-    display: inline-block;
-    width: 250px;
-    height: 450px; /* Фиксируем высоту карточки */
-    vertical-align: top;
-    text-align: center;
-    position: relative;
-}
+            background-color: #111;
+            border: 1px solid #6a0dad;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px;
+            display: inline-block;
+            width: 250px;
+            min-height: 450px;
+            vertical-align: top;
+            text-align: center;
+            position: relative;
+        }
 
-.product-card img {
-    max-width: 100%;
-    max-height: 150px;
-    border-radius: 10px;
-}
-.product-card {
-    background-color: #111;
-    border: 1px solid #6a0dad;
-    border-radius: 10px;
-    padding: 15px;
-    margin: 15px;
-    display: inline-block;
-    width: 250px;
-    min-height: 500px; /* Минимальная высота карточки */
-    vertical-align: top;
-    text-align: center;
-    position: relative;
-}
+        .product-card img {
+            max-width: 100%;
+            max-height: 150px;
+            border-radius: 10px;
+        }
 
-.product-card img {
-    max-width: 100%;
-    max-height: 150px;
-    border-radius: 10px;
-}
+        .product-card p {
+            margin-bottom: 10px;
+            white-space: normal;
+            overflow: visible;
+        }
 
-.product-card p {
-    margin-bottom: 10px; /* Добавляем отступ */
-    white-space: normal; /* Разрешаем перенос текста */
-    overflow: visible; /* Полностью отображаем текст */
-}
+        .product-card button {
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px 20px;
+            background-color: #6a0dad;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
 
-.product-card button {
-    position: absolute;
-    bottom: 15px; /* Расстояние от нижнего края карточки */
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 10px 20px;
-    background-color: #6a0dad;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.product-card button:hover {
-    background-color: #5c0c9b;
-}
-    /* Существующие стили */
-    body {
-        margin: 0;
-        font-family: Arial, sans-serif;
-        background-color: #000;
-        color: white;
-    }
-
-    /* Новые стили для бургер-меню */
-    #burger-icon {
-        position: fixed;
-        top: 15px;
-        left: 15px;
-        font-size: 24px;
-        cursor: pointer;
-        color: white;
-        z-index: 1000;
-    }
-
-    #menu-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.5);
-        display: none;
-        z-index: 998;
-    }
-
-    #side-menu {
-        position: fixed;
-        top: 0;
-        left: -250px;
-        width: 250px;
-        height: 100%;
-        background-color: #111;
-        color: white;
-        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
-        padding: 20px;
-        transition: left 0.3s ease;
-        z-index: 999;
-    }
-
-    #side-menu a {
-        display: block;
-        color: white;
-        text-decoration: none;
-        margin-bottom: 15px;
-        font-size: 18px;
-    }
-
-    #side-menu button {
-        padding: 10px 20px;
-        background-color: #6a0dad;
-        border: none;
-        color: white;
-        cursor: pointer;
-        border-radius: 5px;
-    }
-</style>
+        .product-card button:hover {
+            background-color: #5c0c9b;
+        }
+    </style>
 </head>
 <body>
-<header>
-    <!-- Бургер-иконка -->
-    <div id="burger-icon" onclick="toggleMenu()">
-        ☰
-    </div>
+    <header>
+        <!-- Бургер-иконка -->
+        <div id="burger-icon" onclick="toggleMenu()">☰</div>
 
-    <!-- Обёртка для затемнения -->
-    <div id="menu-overlay" onclick="closeMenu()"></div>
+        <!-- Затемнение -->
+        <div id="menu-overlay" onclick="toggleMenu()"></div>
 
-    <!-- Боковая панель -->
-    <div id="side-menu">
-        <a href="#about">Про нас</a>
-        <a href="#catalog">Каталог</a>
-        <a href="#payment">Оплата</a>
-        <a href="#delivery">Доставка</a>
-        <a href="#contacts">Контакти</a>
-        <a href="#cart">Кошик</a>
-     <button onclick="toggleMenu()" style="font-size: 24px; background: none; border: none; color: white; cursor: pointer;">×</button>
-    </div>
+        <!-- Боковая панель -->
+        <div id="side-menu">
+            <a href="#about">Про нас</a>
+            <a href="#catalog">Каталог</a>
+            <a href="#payment">Оплата</a>
+            <a href="#delivery">Доставка</a>
+            <a href="#contacts">Контакти</a>
+            <a href="#cart">Кошик</a>
+            <button onclick="toggleMenu()">×</button>
+        </div>
 
-    <!-- Баннер -->
-    <img src="images/karma-banner.JPG" alt="Karma Banner">
-</header>
-    </nav>
+        <img src="images/karma-banner.JPG" alt="Karma Banner">
+    </header>
+
     <div class="content">
         <section id="catalog">
             <h2>Каталог</h2>
             <div class="product-card">
-    <img src="images/hirsuta.jpg" alt="Mitragyna Hirsuta">
-    <h3>Mitragyna Hirsuta</h3>
-    <p>М'який стимулятор для підвищення концентрації та енергії. Делікатний ефект без звикання – заряд бадьорості на весь день.</p>
-    <label for="weight-hirsuta">Виберіть вагу (г):</label>
-    <select id="weight-hirsuta" onchange="updatePrice('hirsuta', 10)">
-        <option value="10">10 г</option>
-        <option value="25">25 г</option>
-        <option value="50">50 г</option>
-        <option value="100">100 г</option>
-        <option value="250">250 г</option>
-    </select>
-    <p id="price-hirsuta">Ціна: 100 грн</p>
-    <button onclick="addToCart('Mitragyna Hirsuta', document.getElementById('weight-hirsuta').value, document.getElementById('weight-hirsuta').value * 10)">Додати в кошик</button>
-</div>
+                <img src="images/hirsuta.jpg" alt="Mitragyna Hirsuta">
+                <h3>Mitragyna Hirsuta</h3>
+                <p>М'який стимулятор для підвищення концентрації та енергії. Делікатний ефект без звикання – заряд бадьорості на весь день.</p>
+                <label for="weight-hirsuta">Виберіть вагу (г):</label>
+                <select id="weight-hirsuta" onchange="updatePrice('hirsuta', 10)">
+                    <option value="10">10 г</option>
+                    <option value="25">25 г</option>
+                    <option value="50">50 г</option>
+                    <option value="100">100 г</option>
+                    <option value="250">250 г</option>
+                </select>
+                <p id="price-hirsuta">Ціна: 100 грн</p>
+                <button onclick="addToCart('Mitragyna Hirsuta', document.getElementById('weight-hirsuta').value, document.getElementById('weight-hirsuta').value * 10)">Додати в кошик</button>
+            </div>
             <div class="product-card">
-    <img src="images/javanica.jpg" alt="Mitragyna Javanica">
-    <h3>Mitragyna Javanica</h3>
-    <p>Природний адаптоген для заспокоєння та розслаблення. Ідеальний вибір для тих, хто прагне гармонії та балансу після насиченого дня.</p>
-    <label for="weight-javanica">Виберіть вагу (г):</label>
-    <select id="weight-javanica" name="weight-javanica" onchange="updatePrice('javanica', 10)">
-        <option value="10">10 г</option>
-        <option value="25">25 г</option>
-        <option value="50">50 г</option>
-        <option value="100">100 г</option>
-        <option value="250">250 г</option>
-    </select>
-    <p id="price-javanica">Ціна: 100 грн</p>
-    <button onclick="addToCart('Mitragyna Javanica', document.getElementById('weight-javanica').value, document.getElementById('weight-javanica').value * 10)">Додати в кошик</button>
-</div>
-        </section>
-        <section id="contacts">
-            <h2>Контакти</h2>
-            <div class="contact-links">
-                <a href="https://t.me/kkarma_ukraine" target="_blank">Написати в Telegram</a>
-                <a href="https://www.instagram.com/karmaa.ukraine?igsh=MWJtZmN1bHg1dzdsYQ==" target="_blank">Перейти в Instagram</a>
-                <a href="mailto:karmaa.ukraine@gmail.com">Написати на Email</a>
+                <img src="images/javanica.jpg" alt="Mitragyna Javanica">
+                <h3>Mitragyna Javanica</h3>
+                <p>Розслабляючий ефект для зняття напруги та стресу. Легкий відпочинок для тіла та душі без звикання.</p>
+                <label for="weight-javanica">Виберіть вагу (г):</label>
+                <select id="weight-javanica" onchange="updatePrice('javanica', 10)">
+                    <option value="10">10 г</option>
+                    <option value="25">25 г</option>
+                    <option value="50">50 г</option>
+                    <option value="100">100 г</option>
+                    <option value="250">250 г</option>
+                </select>
+                <p id="price-javanica">Ціна: 100 грн</p>
+                <button onclick="addToCart('Mitragyna Javanica', document.getElementById('weight-javanica').value, document.getElementById('weight-javanica').value * 10)">Додати в кошик</button>
             </div>
         </section>
     </div>
-    <div id="cart-overlay">
-        <div id="cart-content">
-            <h2>Ваш кошик</h2>
-            <div id="cart-items"></div>
-            <p id="cart-total">Загальна сума: 0 грн</p>
-            <button onclick="clearCart()">Очистити кошик</button>
-            <button onclick="processPayment()">Оплатити</button>
-            <button onclick="closeCart()">Закрити</button>
-        </div>
-    </div>
+
     <script>
         let cartItems = [];
         let totalSum = 0;
@@ -376,82 +197,29 @@
             const item = document.createElement("div");
             item.innerHTML = `
                 <p>${product} - ${weight} г - ${price} грн</p>
-                <button onclick="toggleMenu()" style="font-size: 24px; background: none; border: none; color: white; cursor: pointer;">×</button>
+                <button onclick="removeItem(${index})" style="font-size: 24px; background: none; border: none; color: white; cursor: pointer;">×</button>
+            `;
             cart.appendChild(item);
 
-            document.getElementById("cart-total").textContent = `Загальна сума: ${totalSum} грн`;
+            document.getElementById("cart-total").textContent = "Загальна сума: " + totalSum + " грн";
             document.getElementById("cart-count").textContent = cartItems.length;
 
             showNotification();
             cartOverlay.style.display = "block";
         }
 
-        function removeItem(index) {
-            const cart = document.getElementById("cart-items");
-            const itemElements = cart.getElementsByTagName("div");
-
-            totalSum -= cartItems[index].price;
-            cartItems.splice(index, 1);
-
-            cart.removeChild(itemElements[index]);
-            document.getElementById("cart-total").textContent = `Загальна сума: ${totalSum} грн`;
-            document.getElementById("cart-count").textContent = cartItems.length;
-        }
-
-        function clearCart() {
-            const cart = document.getElementById("cart-items");
-            cart.innerHTML = "";
-            cartItems = [];
-            totalSum = 0;
-            document.getElementById("cart-total").textContent = "Загальна сума: 0 грн";
-            document.getElementById("cart-count").textContent = "0";
-        }
-
-        function closeCart() {
-            const cartOverlay = document.getElementById("cart-overlay");
-            cartOverlay.style.display = "none";
-        }
-
-        function showNotification() {
-            const notification = document.getElementById("notification");
-            notification.style.display = "block";
-            setTimeout(() => {
-                notification.style.display = "none";
-            }, 2000);
-        }
-      function processPayment() {
-        if (cartItems.length === 0) {
-            alert("Ваш кошик порожній! Додайте товари перед оплатою.");
-            return;
-        }
-
-        // Рассчитываем итоговую сумму
-        const total = totalSum;
-
-        // Ссылка на перевод
-        const paymentLink = `https://send.monobank.ua/jar/8DC94Zud51?amount=${total}`;
-
-        // Открываем ссылку
-        window.open(paymentLink, "_blank");
-
-        // Очищаем корзину после оплаты
-        clearCart();
-    }
         function toggleMenu() {
-    const sideMenu = document.getElementById("side-menu");
-    const menuOverlay = document.getElementById("menu-overlay");
+            const sideMenu = document.getElementById("side-menu");
+            const menuOverlay = document.getElementById("menu-overlay");
 
-    if (sideMenu.style.left === "0px") {
-        sideMenu.style.left = "-250px"; // Скрываем меню
-        menuOverlay.style.display = "none"; // Скрываем затемнение
-    } else {
-        sideMenu.style.left = "0px"; // Показываем меню
-        menuOverlay.style.display = "block"; // Показываем затемнение
-    }
-}
-</script>
-    <div id="notification" style="display: none; position: fixed; top: 20px; right: 20px; background: #6a0dad; color: #fff; padding: 10px 20px; border-radius: 5px; z-index: 1000;">
-        Товар додано до кошика!
-    </div>
+            if (sideMenu.style.left === "0px") {
+                sideMenu.style.left = "-250px";
+                menuOverlay.style.display = "none";
+            } else {
+                sideMenu.style.left = "0px";
+                menuOverlay.style.display = "block";
+            }
+        }
+    </script>
 </body>
 </html>
