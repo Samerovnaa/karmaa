@@ -278,6 +278,7 @@
             <div id="cart-items"></div>
             <p id="cart-total">Загальна сума: 0 грн</p>
             <button onclick="clearCart()">Очистити кошик</button>
+            <button onclick="processPayment()">Оплатити</button>
             <button onclick="closeCart()">Закрити</button>
         </div>
     </div>
@@ -348,7 +349,25 @@
                 notification.style.display = "none";
             }, 2000);
         }
-    </script>
+      function processPayment() {
+        if (cartItems.length === 0) {
+            alert("Ваш кошик порожній! Додайте товари перед оплатою.");
+            return;
+        }
+
+        // Рассчитываем итоговую сумму
+        const total = totalSum;
+
+        // Ссылка на перевод
+        const paymentLink = `https://send.monobank.ua/jar/8DC94Zud51?amount=${total}`;
+
+        // Открываем ссылку
+        window.open(paymentLink, "_blank");
+
+        // Очищаем корзину после оплаты
+        clearCart();
+    }
+</script>
     <div id="notification" style="display: none; position: fixed; top: 20px; right: 20px; background: #6a0dad; color: #fff; padding: 10px 20px; border-radius: 5px; z-index: 1000;">
         Товар додано до кошика!
     </div>
