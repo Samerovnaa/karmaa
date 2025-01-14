@@ -121,7 +121,24 @@
         button:hover {
             background: #5a099d;
         }
-    </style>
+        @media (max-width: 768px) {
+    .product-card {
+        width: 100%; /* Карточка займёт всю ширину экрана */
+        max-width: 300px; /* Ограничиваем максимальную ширину */
+        margin: 10px auto; /* Центрируем карточки */
+        padding: 10px; /* Уменьшаем внутренние отступы */
+    }
+
+    .product-card button {
+        position: static; /* Кнопка будет под содержимым карточки */
+        margin-top: 15px; /* Добавляем отступ сверху */
+    }
+            .product-card img {
+        max-width: 100%; /* Изображения адаптируются */
+        height: auto; /* Сохраняем пропорции */
+    }
+}
+</style>
 </head>
 <body>
 <header>
