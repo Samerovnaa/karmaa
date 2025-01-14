@@ -14,31 +14,28 @@
         header {
             text-align: center;
             padding: 20px;
-            background: linear-gradient(90deg, #6a0dad, #1e90ff);
         }
-        header h1 {
-            margin: 0;
-            font-size: 2.5em;
+        header img {
+            max-width: 100%;
+            height: auto;
         }
         nav {
             display: flex;
             justify-content: center;
+            gap: 20px;
             padding: 10px;
             background-color: #111;
         }
         nav a {
-            margin: 0 15px;
-            text-decoration: none;
             color: #fff;
+            text-decoration: none;
             font-size: 1.2em;
-            transition: color 0.3s;
         }
         nav a:hover {
             color: #6a0dad;
         }
-        section {
+        .content {
             padding: 20px;
-            text-align: center;
         }
         .product-card {
             background-color: #111;
@@ -57,169 +54,57 @@
             color: #6a0dad;
             font-size: 1.5em;
         }
-        .product-card select, .product-card p {
-            margin-top: 10px;
+        #cart-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
         }
-        footer {
-            text-align: center;
+        #cart-content {
+            background: #111;
             padding: 20px;
-            background-color: #111;
+            border-radius: 10px;
+            max-width: 400px;
+            width: 90%;
+            text-align: left;
+        }
+        #cart-items div {
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #6a0dad;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        #cart-total {
+            font-weight: bold;
+            margin-top: 15px;
             color: #6a0dad;
         }
-        #cart-overlay {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.8);
-    color: #fff;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-}
-
-#cart-content {
-    background: #111;
-    padding: 20px;
-    border-radius: 10px;
-    max-width: 400px;
-    width: 90%;
-    text-align: left;
-}
-
-#cart-items div {
-    margin-bottom: 10px;
-    padding: 10px;
-    border: 1px solid #6a0dad;
-    border-radius: 5px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-#cart-total {
-    font-weight: bold;
-    margin-top: 15px;
-    color: #6a0dad;
-}
-
-button {
-    padding: 10px;
-    background: #6a0dad;
-    border: none;
-    color: white;
-    cursor: pointer;
-    border-radius: 5px;
-}
-
-button:hover {
-    background: #5a099d;
-}
+        button {
+            padding: 10px;
+            background: #6a0dad;
+            border: none;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background: #5a099d;
+        }
     </style>
-<script>
-    let cartItems = []; // Массив товаров в корзине
-    let totalSum = 0; // Итоговая сумма
-
-    function updatePrice(product, basePrice) {
-        const weightSelect = document.getElementById(`weight-${product}`);
-        const priceDisplay = document.getElementById(`price-${product}`);
-        const weight = weightSelect.value;
-        const totalPrice = weight * basePrice;
-        priceDisplay.textContent = `Ціна: ${totalPrice} грн`;
-    }
-
-   function addToCart(product, weight, price) {
-    const cart = document.getElementById("cart-items");
-    const cartOverlay = document.getElementById("cart-overlay");
-
-    const index = cartItems.length; // Определяем индекс нового товара
-    cartItems.push({ product, weight, price }); // Добавляем товар в массив корзины
-    totalSum += price; // Обновляем итоговую сумму
-
-    // Создаём элемент для отображения товара
-    const item = document.createElement("div");
-    item.innerHTML = `
-        <p>${product} - ${weight} г - ${price} грн</p>
-        <button onclick="removeItem(${index})" style="padding: 5px; background: #ff4d4d; border: none; color: white; cursor: pointer; margin-top: 5px;">Видалити</button>
-    `;
-    cart.appendChild(item);
-
-    // Обновляем итоговую сумму
-    document.getElementById("cart-total").textContent = `Загальна сума: ${totalSum} грн`;
-
-    // Обновляем количество товаров в корзине
-    document.getElementById("cart-count").textContent = cartItems.length;
-
-    // Показываем уведомление
-    showNotification();
-
-    // Отображаем корзину
-    cartOverlay.style.display = "block";
-}
-        // Добавляем товар в массив корзины
-        const index = cartItems.length;
-        cartItems.push({ product, weight, price });
-        totalSum += price;
-
-        // Создаём элемент товара
-        const item = document.createElement("div");
-        item.innerHTML = `
-            <p>${product} - ${weight} г - ${price} грн</p>
-            <button onclick="removeItem(${index})" style="padding: 5px; background: #ff4d4d; border: none; color: white; cursor: pointer; margin-top: 5px;">Видалити</button>
-        `;
-        cart.appendChild(item);
-
-        // Обновляем итоговую сумму
-        document.getElementById("cart-total").textContent = `Загальна сума: ${totalSum} грн`;
-
-        // Показываем корзину
-        cartOverlay.style.display = "block";
-    }
-
-    function removeItem(index) {
-        const cart = document.getElementById("cart-items");
-        const itemElements = cart.getElementsByTagName("div");
-
-        // Удаляем элемент из массива и обновляем итоговую сумму
-        totalSum -= cartItems[index].price;
-        cartItems.splice(index, 1);
-
-        // Удаляем элемент из отображения
-        cart.removeChild(itemElements[index]);
-
-        // Обновляем итоговую сумму
-        document.getElementById("cart-total").textContent = `Загальна сума: ${totalSum} грн`;
-    }
-
-    function clearCart() {
-        const cart = document.getElementById("cart-items");
-        cart.innerHTML = ""; // Удаляем все товары из отображения
-        cartItems = []; // Очищаем массив корзины
-        totalSum = 0; // Сбрасываем итоговую сумму
-        document.getElementById("cart-total").textContent = "Загальна сума: 0 грн";
-    }
-
-    function closeCart() {
-        const cartOverlay = document.getElementById("cart-overlay");
-        cartOverlay.style.display = "none";
-    }
-    function showNotification() {
-    const notification = document.getElementById("notification");
-    notification.style.display = "block";
-    setTimeout(() => {
-        notification.style.display = "none";
-    }, 2000);
-}
-</script>
 </head>
 <body>
-    <div id="notification" style="display: none; position: fixed; top: 20px; right: 20px; background: #6a0dad; color: #fff; padding: 10px 20px; border-radius: 5px; z-index: 1000;">
-    Товар додано до кошика!
-</div>
     <header>
-        <h1>Хірсута та Джаваніка - природна енергія у кожній чашці!</h1>
+        <img src="/mnt/data/0CFC20E3-356D-4C2E-8062-5290C7B41385.jpeg" alt="Karma Banner">
     </header>
     <nav>
         <a href="#about">Про нас</a>
@@ -227,76 +112,129 @@ button:hover {
         <a href="#payment">Оплата</a>
         <a href="#delivery">Доставка</a>
         <a href="#contacts">Контакти</a>
+        <a href="#cart">Кошик</a>
         <span id="cart-count" style="background: #6a0dad; color: #fff; padding: 5px 10px; border-radius: 50%; margin-left: 10px;">0</span>
     </nav>
-    <section id="about">
-        <h2>Про нас</h2>
-        <p>Ми — твій провідник у світ якісних та натуральних бустів. Ми знаходимо круті адаптогени для підтримки здоров'я та енергії. Ці продукти створені, щоб дарувати тобі спокій, енергію та продуктивність у будь-який час дня. Вибираючи нас, ти обираєш здоров'я, натхнення та нові можливості!</p>
-    </section>
-    <section id="catalog">
-        <h2>Каталог</h2>
-        <div class="product-card">
-            <img src="images/hirsuta.jpg" alt="Mitragyna Hirsuta">
-            <h3>Mitragyna Hirsuta</h3>
-            <p>М'який стимулятор для підвищення концентрації та енергії. Делікатний ефект без звикання – заряд бадьорості на весь день.</p>
-            <label for="weight-hirsuta">Виберіть вагу (г):</label>
-            <select id="weight-hirsuta" onchange="updatePrice('hirsuta', 10)">
-                <option value="10">10 г</option>
-                <option value="25">25 г</option>
-                <option value="50">50 г</option>
-                <option value="100">100 г</option>
-                <option value="250">250 г</option>
-            </select>
-            <p id="price-hirsuta">Ціна: 100 грн</p>
-            <button onclick="addToCart('Mitragyna Hirsuta', document.getElementById('weight-hirsuta').value, document.getElementById('weight-hirsuta').value * 10)">Додати в кошик</button>
+    <div class="content">
+        <section id="catalog">
+            <h2>Каталог</h2>
+            <div class="product-card">
+                <img src="/mnt/data/p.jpg" alt="Mitragyna Hirsuta">
+                <h3>Mitragyna Hirsuta</h3>
+                <label for="weight-hirsuta">Виберіть вагу (г):</label>
+                <select id="weight-hirsuta" onchange="updatePrice('hirsuta', 10)">
+                    <option value="10">10 г</option>
+                    <option value="25">25 г</option>
+                    <option value="50">50 г</option>
+                    <option value="100">100 г</option>
+                    <option value="250">250 г</option>
+                </select>
+                <p id="price-hirsuta">Ціна: 100 грн</p>
+                <button onclick="addToCart('Mitragyna Hirsuta', document.getElementById('weight-hirsuta').value, document.getElementById('weight-hirsuta').value * 10)">Додати в кошик</button>
+            </div>
+            <div class="product-card">
+                <img src="/mnt/data/зеленый порошок джаваника (1).jpg" alt="Mitragyna Javanica">
+                <h3>Mitragyna Javanica</h3>
+                <label for="weight-javanica">Виберіть вагу (г):</label>
+                <select id="weight-javanica" onchange="updatePrice('javanica', 10)">
+                    <option value="10">10 г</option>
+                    <option value="25">25 г</option>
+                    <option value="50">50 г</option>
+                    <option value="100">100 г</option>
+                    <option value="250">250 г</option>
+                </select>
+                <p id="price-javanica">Ціна: 100 грн</p>
+                <button onclick="addToCart('Mitragyna Javanica', document.getElementById('weight-javanica').value, document.getElementById('weight-javanica').value * 10)">Додати в кошик</button>
+            </div>
+        </section>
+        <section id="contacts">
+            <h2>Контакти</h2>
+            <div class="contact-links">
+                <a href="https://t.me/kkarma_ukraine" target="_blank">Написати в Telegram</a>
+                <a href="https://www.instagram.com/karmaa.ukraine?igsh=MWJtZmN1bHg1dzdsYQ==" target="_blank">Перейти в Instagram</a>
+                <a href="mailto:karmaa.ukraine@gmail.com">Написати на Email</a>
+            </div>
+        </section>
+    </div>
+    <div id="cart-overlay">
+        <div id="cart-content">
+            <h2>Ваш кошик</h2>
+            <div id="cart-items"></div>
+            <p id="cart-total">Загальна сума: 0 грн</p>
+            <button onclick="clearCart()">Очистити кошик</button>
+            <button onclick="closeCart()">Закрити</button>
         </div>
-        <div class="product-card">
-            <img src="images/javanica.jpg" alt="Mitragyna Javanica">
-            <h3>Mitragyna Javanica</h3>
-            <p>Природний адаптоген для заспокоєння та розслаблення. Ідеальний вибір для тих, хто прагне гармонії та балансу після насиченого дня.</p>
-            <label for="weight-javanica">Виберіть вагу (г):</label>
-            <select id="weight-javanica" onchange="updatePrice('javanica', 10)">
-                <option value="10">10 г</option>
-                <option value="25">25 г</option>
-                <option value="50">50 г</option>
-                <option value="100">100 г</option>
-                <option value="250">250 г</option>
-            </select>
-            <p id="price-javanica">Ціна: 100 грн</p>
-            <button onclick="addToCart('Mitragyna Javanica', document.getElementById('weight-javanica').value, document.getElementById('weight-javanica').value * 10)">Додати в кошик</button>
-        </div>
-    </section>
-    <section id="payment">
-        <h2>Оплата</h2>
-        <p>Ми пропонуємо два способи оплати: при отриманні на Новій Пошті (наложений платіж) або онлайн через Google Pay/Apple Pay.</p>
-    </section>
-    <section id="delivery">
-        <h2>Доставка</h2>
-        <p>Доставка здійснюється через Нову Пошту. Вкажіть своє місто, номер відділення або поштомату при оформленні замовлення.</p>
-    </section>
-    <section id="contacts">
-        <h2>Контакти</h2>
-        <div class="contact-links">
-            <a href="https://t.me/kkarma_ukraine" target="_blank">Написати в Telegram</a>
-            <a href="https://www.instagram.com/karmaa.ukraine?igsh=MWJmZmN1bHg=" target="_blank">Перейти в Instagram</a>
-            <a href="mailto:karmaa.ukraine@gmail.com">Написати на Email</a>
-        </div>
-    </section>
-    <footer>
-        <p>&copy; 2025 Karmaa Ukraine. Всі права захищені.</p>
-        <div>
-            <a href="https://t.me/kkarma_ukraine" target="_blank" style="color: #6a0dad; text-decoration: none; margin-right: 15px;">Telegram</a>
-            <a href="https://www.instagram.com/karmaa.ukraine?igsh=MWJmZmN1bHg=" target="_blank" style="color: #6a0dad; text-decoration: none; margin-right: 15px;">Instagram</a>
-            <a href="mailto:karmaa.ukraine@gmail.com" style="color: #6a0dad; text-decoration: none;">Email</a>
-        </div>
-    </footer>
-    <div id="cart-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); color: #fff; justify-content: center; align-items: center;">
-    <div id="cart-content" style="background: #111; padding: 20px; border-radius: 10px; max-width: 400px; text-align: left;">
-       <h2>Ваш кошик</h2>
-<div id="cart-items"></div> <!-- Сюда будут добавляться товары -->
-<p id="cart-total">Загальна сума: 0 грн</p> <!-- Итоговая сумма -->
-<button onclick="clearCart()" style="margin-top: 10px; padding: 10px; background: #6a0dad; border: none; color: #fff; cursor: pointer;">Очистити кошик</button>
-<button onclick="closeCart()" style="margin-top: 10px; padding: 10px; background: #6a0dad; border: none; color: #fff; cursor: pointer;">Закрити</button>
-</div>
+    </div>
+    <script>
+        let cartItems = [];
+        let totalSum = 0;
+
+        function updatePrice(product, basePrice) {
+            const weightSelect = document.getElementById(`weight-${product}`);
+            const priceDisplay = document.getElementById(`price-${product}`);
+            const weight = weightSelect.value;
+            const totalPrice = weight * basePrice;
+            priceDisplay.textContent = `Ціна: ${totalPrice} грн`;
+        }
+
+        function addToCart(product, weight, price) {
+            const cart = document.getElementById("cart-items");
+            const cartOverlay = document.getElementById("cart-overlay");
+
+            const index = cartItems.length;
+            cartItems.push({ product, weight, price });
+            totalSum += price;
+
+            const item = document.createElement("div");
+            item.innerHTML = `
+                <p>${product} - ${weight} г - ${price} грн</p>
+                <button onclick="removeItem(${index})" style="padding: 5px; background: #ff4d4d; border: none; color: white; cursor: pointer; margin-top: 5px;">Видалити</button>
+            `;
+            cart.appendChild(item);
+
+            document.getElementById("cart-total").textContent = `Загальна сума: ${totalSum} грн`;
+            document.getElementById("cart-count").textContent = cartItems.length;
+
+            showNotification();
+            cartOverlay.style.display = "block";
+        }
+
+        function removeItem(index) {
+            const cart = document.getElementById("cart-items");
+            const itemElements = cart.getElementsByTagName("div");
+
+            totalSum -= cartItems[index].price;
+            cartItems.splice(index, 1);
+
+            cart.removeChild(itemElements[index]);
+            document.getElementById("cart-total").textContent = `Загальна сума: ${totalSum} грн`;
+            document.getElementById("cart-count").textContent = cartItems.length;
+        }
+
+        function clearCart() {
+            const cart = document.getElementById("cart-items");
+            cart.innerHTML = "";
+            cartItems = [];
+            totalSum = 0;
+            document.getElementById("cart-total").textContent = "Загальна сума: 0 грн";
+            document.getElementById("cart-count").textContent = "0";
+        }
+
+        function closeCart() {
+            const cartOverlay = document.getElementById("cart-overlay");
+            cartOverlay.style.display = "none";
+        }
+
+        function showNotification() {
+            const notification = document.getElementById("notification");
+            notification.style.display = "block";
+            setTimeout(() => {
+                notification.style.display = "none";
+            }, 2000);
+        }
+    </script>
+    <div id="notification" style="display: none; position: fixed; top: 20px; right: 20px; background: #6a0dad; color: #fff; padding: 10px 20px; border-radius: 5px; z-index: 1000;">
+        Товар додано до кошика!
+    </div>
 </body>
 </html>
