@@ -145,9 +145,14 @@
             width: 200px; /* Уменьшаем боковое меню на маленьких экранах */
         }
     }
+       
 </style>
 </head>
 <body>
+    <section id="home">
+    <h1>Ласкаво просимо до Karmaa!</h1>
+    <p>Виберіть свої улюблені чаї прямо зараз.</p>
+</section>
     <header>
     <!-- Бургер-иконка -->
     <div id="burger-icon" onclick="toggleMenu()">☰</div>
@@ -161,7 +166,8 @@
         <a href="#payment">Оплата</a>
         <a href="#delivery">Доставка</a>
         <a href="#contacts">Контакти</a>
-        <a href="#cart">Кошик</a>
+        <a href="#cart">Кошик</a><span id="cart-count" style="background: #6a0dad; color: white; padding: 5px 10px; border-radius: 50%; margin-left: 10px;">0</span>
+
         <button onclick="toggleMenu()" class="close-button">×</button>
     </div>
 
@@ -231,7 +237,7 @@
             `;
             cart.appendChild(item);
 
-            document.getElementById("cart-total").textContent = "Загальна сума: " + totalSum + " грн";
+           document.getElementById("cart-total").textContent = `Загальна сума: ${totalSum} грн`;
             document.getElementById("cart-count").textContent = cartItems.length;
 
             showNotification();
@@ -252,7 +258,7 @@
         }
         function removeItem(index) {
     const cart = document.getElementById("cart-items");
-    const itemElements = cart.getElementsByTagName("div");
+    const itemElements = cart.children;
 
     totalSum -= cartItems[index].price;
     cartItems.splice(index, 1);
@@ -280,6 +286,9 @@ function closeCart() {
     const cartOverlay = document.getElementById("cart-overlay");
     cartOverlay.style.display = "none";
 }
+        if (!location.hash) {
+    location.href = "#home";
+}
     </script>
     <div id="cart-overlay" style="display: none;">
     <div id="cart-content">
@@ -289,6 +298,9 @@ function closeCart() {
         <button onclick="clearCart()">Очистити кошик</button>
         <button onclick="closeCart()">×</button>
     </div>
+</div>
+    <div id="notification" style="display: none; position: fixed; top: 20px; right: 20px; background: #6a0dad; color: white; padding: 10px 20px; border-radius: 5px; z-index: 1000;">
+    Товар додано до кошика!
 </div>
 </body>
 </html>
