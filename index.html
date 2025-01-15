@@ -220,6 +220,45 @@
                 menuOverlay.style.display = "block";
             }
         }
+        function removeItem(index) {
+    const cart = document.getElementById("cart-items");
+    const itemElements = cart.getElementsByTagName("div");
+
+    totalSum -= cartItems[index].price;
+    cartItems.splice(index, 1);
+
+    cart.removeChild(itemElements[index]);
+    document.getElementById("cart-total").textContent = "Загальна сума: " + totalSum + " грн";
+    document.getElementById("cart-count").textContent = cartItems.length;
+}
+        function showNotification() {
+    const notification = document.getElementById("notification");
+    notification.style.display = "block";
+    setTimeout(() => {
+        notification.style.display = "none";
+    }, 2000);
+}
+function clearCart() {
+    const cart = document.getElementById("cart-items");
+    cart.innerHTML = "";
+    cartItems = [];
+    totalSum = 0;
+    document.getElementById("cart-total").textContent = "Загальна сума: 0 грн";
+    document.getElementById("cart-count").textContent = "0";
+}
+function closeCart() {
+    const cartOverlay = document.getElementById("cart-overlay");
+    cartOverlay.style.display = "none";
+}
     </script>
+    <div id="cart-overlay" style="display: none;">
+    <div id="cart-content">
+        <h2>Ваш кошик</h2>
+        <div id="cart-items"></div>
+        <p id="cart-total">Загальна сума: 0 грн</p>
+        <button onclick="clearCart()">Очистити кошик</button>
+        <button onclick="closeCart()">×</button>
+    </div>
+</div>
 </body>
 </html>
