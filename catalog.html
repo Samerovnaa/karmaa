@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Купуйте Mitragyna Hirsuta та Javanica в Україні. Ефективний вибір для розслаблення, енергії та зняття стресу.">
+    <meta name="keywords" content="каталог, Karma Ukraine, Mitragyna Hirsuta, Mitragyna Javanica, альтернативні чаї, купити чаї">
+    <title>Каталог | Karma Ukraine</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div id="burger-icon" onclick="toggleMenu()">☰</div>
+        <div id="menu-overlay" onclick="toggleMenu()"></div>
+        <div id="side-menu">
+            <a href="index.html">Головна</a>
+            <a href="about.html">Про нас</a>
+            <a href="catalog.html">Каталог</a>
+            <a href="contacts.html">Контакти</a>
+            <a href="cart.html">Кошик</a>
+        </div>
+        <img src="images/karma-banner.JPG" alt="Karma Banner">
+    </header>
+    <section id="catalog">
+        <h2 style="text-align: center; color: white;">Каталог</h2>
+        <div class="product-card">
+            <img src="images/hirsuta.jpg" alt="Hirsuta">
+            <h3>Mitragyna Hirsuta</h3>
+            <p>М'який стимулятор для підвищення концентрації...</p>
+            <label for="weight-hirsuta">Виберіть вагу (г):</label>
+            <select id="weight-hirsuta" onchange="updatePrice('hirsuta', 10)">
+                <option value="10">10 г</option>
+                <option value="25">25 г</option>
+                <option value="50">50 г</option>
+                <option value="100">100 г</option>
+                <option value="250">250 г</option>
+            </select>
+            <p id="price-hirsuta">Ціна: 100 грн</p>
+            <button onclick="addToCart('Mitragyna Hirsuta', document.getElementById('weight-hirsuta').value, document.getElementById('weight-hirsuta').value * 10)">Додати в кошик</button>
+        </div>
+        <div class="product-card">
+            <img src="images/javanica.jpg" alt="Javanica">
+            <h3>Mitragyna Javanica</h3>
+            <p>Розслабляючий ефект для зняття напруги...</p>
+            <label for="weight-javanica">Виберіть вагу (г):</label>
+            <select id="weight-javanica" onchange="updatePrice('javanica', 10)">
+                <option value="10">10 г</option>
+                <option value="25">25 г</option>
+                <option value="50">50 г</option>
+                <option value="100">100 г</option>
+                <option value="250">250 г</option>
+            </select>
+            <p id="price-javanica">Ціна: 100 грн</p>
+            <button onclick="addToCart('Mitragyna Javanica', document.getElementById('weight-javanica').value, document.getElementById('weight-javanica').value * 10)">Додати в кошик</button>
+        </div>
+    </section>
+    <script src="main.js"></script>
+</body>
+</html>

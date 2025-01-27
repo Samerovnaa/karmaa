@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Перевірте ваш кошик у Karma Ukraine. Легке замовлення та оплата для наших якісних альтернативних чаїв.">
+    <meta name="keywords" content="кошик, Karma Ukraine, альтернативні чаї, Mitragyna Hirsuta, Mitragyna Javanica, замовлення чаю">
+    <title>Кошик | Karma Ukraine</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div id="burger-icon" onclick="toggleMenu()">☰</div>
+        <div id="menu-overlay" onclick="toggleMenu()"></div>
+        <div id="side-menu">
+            <a href="index.html">Головна</a>
+            <a href="about.html">Про нас</a>
+            <a href="catalog.html">Каталог</a>
+            <a href="contacts.html">Контакти</a>
+            <a href="cart.html">Кошик</a>
+        </div>
+        <img src="images/karma-banner.JPG" alt="Karma Banner">
+    </header>
+    <div id="cart-overlay">
+        <div id="cart-content">
+            <h2>Ваш кошик</h2>
+            <div id="cart-items"></div>
+            <p id="cart-total">Загальна сума: 0 грн</p>
+            <button onclick="clearCart()">Очистити кошик</button>
+            <button onclick="processPayment()">Оплатити</button>
+            <div id="cart-footer">
+                <p style="color: #6a0dad; font-size: 14px; margin-top: 20px;">
+                    * Оплата здійснюється через офіційні захищені сервери MonoBank. Ми не зберігаємо ваші дані про банківські картки.
+                </p>
+            </div>    
+        </div>
+    <section id="cart-form">
+        <h2>Заповніть дані для відправки</h2>
+        <label for="name">Ім'я та прізвище:</label>
+        <input type="text" id="name" placeholder="Ваше ім'я та прізвище" required>
+    
+        <label for="phone">Телефон:</label>
+        <input type="tel" id="phone" placeholder="Ваш телефон" required>
+    
+        <label for="city">Населений пункт:</label>
+        <input type="text" id="city" placeholder="Місто або населений пункт" required>
+    
+        <label for="warehouse">Відділення Нової Пошти або поштомат:</label>
+        <input type="text" id="warehouse" placeholder="Номер відділення або поштомату" required>
+    
+        <label for="payment-method">Спосіб оплати:</label>
+        <select id="payment-method" required>
+            <option value="На сайті">На сайті</option>
+            <option value="Накладений платіж">Накладений платіж</option>
+        </select>
+        <button onclick="submitOrder()">Підтвердити замовлення</button>
+    </section>    
+    <script src="main.js"></script>
+</body>
+</html>
