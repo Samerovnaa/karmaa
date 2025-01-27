@@ -2,7 +2,7 @@
  body {
         margin: 0;
         font-family: Arial, sans-serif;
-        background: url("images/background.jpg") no-repeat center center fixed; /* Указываем путь к фону */
+        background: url("images/background.JPG") no-repeat center center fixed; /* Указываем путь к фону */
         background-size: cover; /* Делаем фон растянутым по экрану */
         color: white;
     }    
